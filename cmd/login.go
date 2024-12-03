@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/ini8labs/ai-dba-cli/pkg/config"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -33,12 +34,18 @@ func login(cmd *cobra.Command, args []string) error {
 	email, err := cmd.Flags().GetString("email")
 	if err != nil {
 		return err
+	} else if email == "-p" {
+		return fmt.Errorf("email cannot be empty; please provide it using the --email or -e flag")
 	}
+
+	fmt.Println("Email is :", email)
 
 	password, err := cmd.Flags().GetString("password")
 	if err != nil {
 		return err
 	}
+
+	fmt.Println("Password is :", password)
 
 	// Validate email and password inputs
 	if email == "" {
@@ -74,7 +81,7 @@ func login(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			return fmt.Errorf("failed to read response body: %w", err)
 		}
-		return fmt.Errorf("login failed: %s", body)
+		return fmt.Errorf("login failed: %s. Check credentials and try again.", body)
 	}
 
 	// Parse the response
@@ -91,7 +98,7 @@ func login(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("failed to parse response: %w", err)
 	}
 
-	fmt.Printf("Login successful! Welcome %s. \n", response.User.Email)
+	logrus.Infof("Login successful! Welcome %s.", response.User.Email)
 
 	// Save the token in the config file
 	config, err := config.Load()
@@ -104,7 +111,7 @@ func login(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("failed to save token: %w", err)
 	}
 
-	fmt.Println("Token saved successfully.")
+	logrus.Debugln("Token saved successfully.")
 
 	return nil
 }

@@ -20,10 +20,10 @@ func GetConfigPath() (string, error) {
 		return "", err
 	}
 
-	// fmt.Println("config dir:", configDir)
+	// logrus.Debugln("config dir:", configDir)
 
 	// CLI-specific directory
-	cliDir := filepath.Join(configDir, "dba.exe")
+	cliDir := filepath.Join(configDir, ".dba")
 	if err := os.MkdirAll(cliDir, os.ModePerm); err != nil {
 		return "", err
 	}

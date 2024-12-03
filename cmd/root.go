@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -15,7 +14,7 @@ var rootCmd = &cobra.Command{
 Supported connection string formats:
   PostgreSQL: postgresql://user:pass@host:5432/dbname`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Welcome to dba!")
+		logrus.Infoln("Welcome to dba!")
 	},
 }
 
