@@ -38,14 +38,10 @@ func login(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("email cannot be empty; please provide it using the --email or -e flag")
 	}
 
-	fmt.Println("Email is :", email)
-
 	password, err := cmd.Flags().GetString("password")
 	if err != nil {
 		return err
 	}
-
-	fmt.Println("Password is :", password)
 
 	// Validate email and password inputs
 	if email == "" {
