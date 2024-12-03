@@ -4,8 +4,8 @@ A powerful command-line tool to interact with your PostgreSQL databases and reco
 
 ## Features
 
-- **Login to the Database**: Use the `login` command to authenticate with your PostgreSQL database by providing an email and password using the `-e` and `-p` flags respectively.
-- **Run PostgreSQL Analysis**: `analyse` command enables you to run PostgreSQL commands using the `-c` or `--connection-string` flag with your PostgreSQL connection string.
+- **Login with email and password**: Use the `login` command to authenticate with your credentials by providing an email and password using the `-e`/`--email` and `-p`/`--password` flags respectively.
+- **Run Postgres Analysis**: `analyse` command enables you to run PostgreSQL commands using the `-c` or `--connection-string` flag with your PostgreSQL connection string.
 
 ## Requirements
 
