@@ -18,12 +18,14 @@ A powerful command-line tool to interact with your PostgreSQL databases and reco
 
 1. Go to the [Releases](https://github.com/ini8labs/ai-dba-cli/releases) page.
 2. Download the appropriate binary for your system:
-   - `dba.exe` for Windows
+   - `dba.exe` for Windows amd64
+   - `dba-linux-amd64` for Linux amd64
+   - `db-darwin-arm64` for MacOS arm64
 3. Clone the repo on your system.
 4. Place the downloaded binary in the root folder of the cloned repo.
 5. Make sure the `.env` file is in the same directory as the binary.
 
-## Running the Binary (Windows)
+## Running the Binary (Windows AMD64)
 
 ### 1. Login to the Database
 
@@ -41,4 +43,44 @@ Use the `analyse` command to connect to a PostgreSQL database using a connection
 
 ```bash
 ./dba.exe analyse -c <postgres_connection_string>
+```
+
+## Running the Binary (MacOS ARM64)
+
+### 1. Login to the Database
+
+Use the `login` command to authenticate to the PostgreSQL database with your email and password.
+
+#### Command:
+
+```bash
+./dba-darwin-arm64 login -e <email> -p <password>
+```
+
+### 2. Analyze PostgreSQL Database
+
+Use the `analyse` command to connect to a PostgreSQL database using a connection string and run analysis.
+
+```bash
+./dba-darwin-arm64 analyse -c <postgres_connection_string>
+```
+
+## Running the Binary (Linux AMD64)
+
+### 1. Login to the Database
+
+Use the `login` command to authenticate to the PostgreSQL database with your email and password.
+
+#### Command:
+
+```bash
+./dba-linux-amd64 login -e <email> -p <password>
+```
+
+### 2. Analyze PostgreSQL Database
+
+Use the `analyse` command to connect to a PostgreSQL database using a connection string and run analysis.
+
+```bash
+./dba-linux-amd64 analyse -c <postgres_connection_string>
 ```
