@@ -6,11 +6,18 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 
 	"github.com/ini8labs/ai-dba-cli/pkg/config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+)
+
+const (
+	BaseURL    = "https://dba-api-xxxv-sh0s.onxplorx.app"
+	WebhookURL = BaseURL + "/v1/data"
+
+// BaseURL    = "http://localhost:3000"
+// WebhookURL = BaseURL + "/v1/data"
 )
 
 var (
@@ -62,8 +69,7 @@ func login(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("failed to marshal payload: %w", err)
 	}
 
-	url := os.Getenv("BASE_URL")
-	loginURL := fmt.Sprintf("%s/v1/users/login", url)
+	loginURL := fmt.Sprintf("%s/v1/users/login", BaseURL)
 
 	// Send the POST request
 	resp, err := http.Post(loginURL, "application/json", bytes.NewBuffer(data))

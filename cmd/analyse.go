@@ -7,7 +7,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -84,73 +83,72 @@ var (
 	LIMIT 10;
 	`
 
-	SecurityQuery = `
-		WITH role_privileges AS (
-		SELECT
-			rolname AS role_name,
-			rolsuper AS is_superuser,
-			rolcreaterole AS can_create_roles,
-			rolcreatedb AS can_create_db,
-			rolcanlogin AS can_login,
-			rolreplication AS can_replicate
-		FROM pg_roles
-	),
-	table_privileges AS (
-		SELECT
-			grantee,
-			table_schema,
-			table_name,
-			privilege_type
-		FROM information_schema.role_table_grants
-		WHERE table_schema = 'public' -- Focus on public schema
-	),
-	connection_settings AS (
-		SELECT
-			name AS setting_name,
-			setting AS value
-		FROM pg_settings
-		WHERE name IN ('max_connections', 'ssl', 'log_connections', 'log_disconnections')
-	),
-	active_connections AS (
-		SELECT
-			datname AS database_name,
-			usename AS username,
-			client_addr AS client_address,
-			backend_start,
-			state
-		FROM pg_stat_activity
-		WHERE state = 'active' -- Focus only on active connections
-	)
-	SELECT DISTINCT
-		rp.role_name,
-		rp.is_superuser,
-		rp.can_create_roles,
-		rp.can_create_db,
-		rp.can_login,
-		rp.can_replicate,
-		tp.table_schema,
-		tp.table_name,
-		tp.privilege_type,
-		cs.setting_name,
-		cs.value AS setting_value,
-		ac.database_name,
-		ac.username,
-		ac.client_address,
-		ac.backend_start,
-		ac.state
-	FROM
-		role_privileges rp
-	LEFT JOIN table_privileges tp ON rp.role_name = tp.grantee
-	LEFT JOIN connection_settings cs ON true -- Include all connection settings
-	LEFT JOIN active_connections ac ON rp.role_name = ac.username
-	WHERE
-		rp.is_superuser = true -- Focus on superuser roles
-		OR tp.privilege_type IS NOT NULL -- Include roles with privileges
-		OR cs.setting_name IS NOT NULL -- Include relevant connection settings
-		OR ac.username IS NOT NULL -- Include active connections
-	ORDER BY
-		rp.role_name, tp.table_name, cs.setting_name;
-`
+	SecurityQuery = `WITH role_privileges AS (
+    SELECT
+        rolname AS role_name,
+        rolsuper AS is_superuser,
+        rolcreaterole AS can_create_roles,
+        rolcreatedb AS can_create_db,
+        rolcanlogin AS can_login,
+        rolreplication AS can_replicate
+    FROM pg_roles
+),
+table_privileges AS (
+    SELECT
+        grantee,
+        jsonb_agg(jsonb_build_object(
+            'table_schema', table_schema,
+            'table_name', table_name,
+            'privilege_type', privilege_type
+        )) AS privileges
+    FROM information_schema.role_table_grants
+    WHERE table_schema = 'public' -- Focus on public schema
+    GROUP BY grantee
+),
+connection_settings AS (
+    SELECT
+        jsonb_agg(jsonb_build_object(
+            'setting_name', name,
+            'value', setting
+        )) AS settings
+    FROM pg_settings
+    WHERE name IN ('max_connections', 'ssl', 'log_connections', 'log_disconnections')
+),
+active_connections AS (
+    SELECT
+        usename AS username,
+        jsonb_agg(jsonb_build_object(
+            'database_name', datname,
+            'client_address', client_addr,
+            'backend_start', backend_start,
+            'state', state
+        )) AS connections
+    FROM pg_stat_activity
+    WHERE state = 'active' -- Focus only on active connections
+    GROUP BY usename
+)
+SELECT
+    rp.role_name,
+    rp.is_superuser,
+    rp.can_create_roles,
+    rp.can_create_db,
+    rp.can_login,
+    rp.can_replicate,
+    COALESCE(tp.privileges, '[]'::jsonb) AS table_privileges,
+    COALESCE(cs.settings, '[]'::jsonb) AS connection_settings,
+    COALESCE(ac.connections, '[]'::jsonb) AS active_connections
+FROM
+    role_privileges rp
+LEFT JOIN table_privileges tp ON rp.role_name = tp.grantee
+LEFT JOIN connection_settings cs ON true -- Include all connection settings
+LEFT JOIN active_connections ac ON rp.role_name = ac.username
+WHERE
+    rp.is_superuser = true -- Focus on superuser roles
+    OR tp.privileges IS NOT NULL -- Include roles with privileges
+    OR cs.settings IS NOT NULL -- Include relevant connection settings
+    OR ac.connections IS NOT NULL -- Include active connections
+ORDER BY
+    rp.role_name;`
 )
 
 type QueryResult struct {
@@ -261,14 +259,9 @@ func analyse(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("failed to marshal query results to JSON: %w", err)
 	}
 
-	webhookURL := os.Getenv("WEBHOOK_URL")
-	if webhookURL == "" {
-		return fmt.Errorf("WEBHOOK_URL environment variable is not set")
-	}
-
 	// Send the results to a webhook
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", webhookURL, strings.NewReader(string(jsonData)))
+	req, err := http.NewRequest("POST", WebhookURL, strings.NewReader(string(jsonData)))
 	if err != nil {
 		return fmt.Errorf("failed to create HTTP request: %w", err)
 	}
