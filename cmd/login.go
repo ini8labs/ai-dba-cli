@@ -12,14 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const (
-	BaseURL    = "https://dba-api-xxxv-sh0s.onxplorx.app"
-	WebhookURL = BaseURL + "/v1/data"
-
-// BaseURL    = "http://localhost:3000"
-// WebhookURL = BaseURL + "/v1/data"
-)
-
 var (
 	loginCmd = &cobra.Command{
 		Use:   "login",
@@ -33,6 +25,11 @@ var (
 func init() {
 	loginCmd.Flags().StringP("email", "e", "", "Email address")
 	loginCmd.Flags().StringP("password", "p", "", "Password")
+
+	loginCmd.SetHelpFunc(func(cmd *cobra.Command, args []string) {
+		fmt.Printf("Example:\n\n\t%s login -e john@doe.com -p 123456\n\t%s login --email john@doe.com  --password 123456", Binary, Binary)
+	})
+
 	rootCmd.AddCommand(loginCmd)
 }
 
@@ -66,7 +63,7 @@ func login(cmd *cobra.Command, args []string) error {
 	}
 	data, err := json.Marshal(payload)
 	if err != nil {
-		return fmt.Errorf("failed to marshal payload: %w", err)
+		return fmt.Errorf("Could not process the request. Please try again later.")
 	}
 
 	loginURL := fmt.Sprintf("%s/v1/users/login", BaseURL)
@@ -74,16 +71,16 @@ func login(cmd *cobra.Command, args []string) error {
 	// Send the POST request
 	resp, err := http.Post(loginURL, "application/json", bytes.NewBuffer(data))
 	if err != nil {
-		return fmt.Errorf("failed to send request: %w", err)
+		return fmt.Errorf("Could not process the request. Please try again later.")
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		body, err := io.ReadAll(resp.Body)
+		_, err := io.ReadAll(resp.Body)
 		if err != nil {
-			return fmt.Errorf("failed to read response body: %w", err)
+			return fmt.Errorf("Could not process the request. Please try again later.")
 		}
-		return fmt.Errorf("login failed: %s. Check credentials and try again.", body)
+		return fmt.Errorf("Login failed: Check credentials and try again.")
 	}
 
 	// Parse the response
@@ -97,7 +94,7 @@ func login(cmd *cobra.Command, args []string) error {
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
-		return fmt.Errorf("failed to parse response: %w", err)
+		return fmt.Errorf("Could not process the request. Please try again later.")
 	}
 
 	logrus.Infof("Login successful! Welcome %s.", response.User.Email)
@@ -105,15 +102,14 @@ func login(cmd *cobra.Command, args []string) error {
 	// Save the token in the config file
 	config, err := config.Load()
 	if err != nil {
-		return fmt.Errorf("failed to load config: %w", err)
+		return fmt.Errorf("Failed to load config: %w", err)
+
 	}
 
 	config.Token = response.Token
 	if err := config.Save(); err != nil {
-		return fmt.Errorf("failed to save token: %w", err)
+		return fmt.Errorf("Failed to save token: %w", err)
 	}
-
-	logrus.Debugln("Token saved successfully.")
 
 	return nil
 }
