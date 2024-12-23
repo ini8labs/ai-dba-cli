@@ -9,8 +9,7 @@ import (
 )
 
 const (
-	BaseURL = "https://dba-api-xxxviii-zjyo.onxplorx.app"
-	// UIURL      = "https://dba-fe-xxix-tsos.onxplorx.app" // TODO: deprecate old FE url
+	BaseURL    = "https://api.dblyser.com"
 	UIURL      = "https://dblyser.com"
 	WebhookURL = BaseURL + "/v1/data"
 
