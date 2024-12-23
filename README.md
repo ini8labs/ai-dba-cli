@@ -1,4 +1,6 @@
 # AI-DBA-CLI
+[![Go Report Card](https://goreportcard.com/badge/github.com/ini8labs/ai-dba-cli)](https://goreportcard.com/report/github.com/ini8labs/ai-dba-cli)
+[![Beta Release](https://img.shields.io/github/v/release/ini8labs/ai-dba-cli?include_prereleases&label=Beta&sort=semver)](https://github.com/ini8labs/ai-dba-cli/releases)
 
 **AI-DBA-CLI** is a powerful command-line tool designed to interact with PostgreSQL databases and record insights. It allows users to log in and analyze database performance directly from the terminal.
 
