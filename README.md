@@ -2,7 +2,6 @@
 
 **AI-DBA-CLI** is a powerful command-line tool designed to interact with PostgreSQL databases and record insights. It allows users to log in and analyze database performance directly from the terminal.
 
----
 
 ## Features
 
@@ -17,14 +16,11 @@
   ./dba.exe analyse -c <postgres_connection_string>
   ```
 
----
-
 ## Requirements
 
 - **Go Runtime**: Required to build the application from source. [Download Go](https://golang.org/dl/).
 - **PostgreSQL Database**: Ensure you have access to a PostgreSQL database for testing and analysis.
 
----
 
 ## Installation
 
@@ -53,8 +49,6 @@
    ```bash
    go build -o dba
    ```
-
----
 
 ## Usage
 
@@ -100,12 +94,9 @@
    ./dba-linux-amd64 analyse -c "postgres://username:password@localhost:5432/database_name"
    ```
 
----
-
 ## Contribution and Feedback
 
 Feel free to contribute to the development of AI-DBA-CLI by creating issues or submitting pull requests on the [GitHub repository](https://github.com/ini8labs/ai-dba-cli). Feedback and suggestions are always welcome!
 
----
 
 **AI-DBA-CLI** — Simplify your PostgreSQL management and analysis.
