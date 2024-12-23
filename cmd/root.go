@@ -54,7 +54,13 @@ func init() {
 			Binary = "dba-darwin-amd64"
 		}
 	case "linux":
-		Binary = "dba-linux-amd64"
+
+		if runtime.GOARCH == "arm64" {
+			Binary = "dba-linux-arm64"
+		} else {
+			Binary = "dba-linux-amd64"
+		}
+
 	default:
 		Binary = "dba.exe" // Fallback for unsupported platforms
 	}
