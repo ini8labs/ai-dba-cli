@@ -3,22 +3,23 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/spf13/cobra"
 )
 
 const (
-	BaseURL    = "https://dba-api-xxxvi-guk4.onxplorx.app"
-	UIURL      = "https://dba-fe-xxix-tsos.onxplorx.app"
+	BaseURL = "https://dba-api-xxxviii-zjyo.onxplorx.app"
+	// UIURL      = "https://dba-fe-xxix-tsos.onxplorx.app" // TODO: deprecate old FE url
+	UIURL      = "https://dblyser.com"
 	WebhookURL = BaseURL + "/v1/data"
-	Binary     = "dba.exe"
-	// Binary     = "dba-linux-amd64"
-	// Binary = "dba-darwin-arm64"
 
 	// BaseURL    = "http://localhost:3000"
 	// WebhookURL = BaseURL + "/v1/data"
 	// Binary     = "dba.exe"
 )
+
+var Binary string
 
 var rootCmd = &cobra.Command{
 	Use:     Binary,
@@ -27,7 +28,7 @@ var rootCmd = &cobra.Command{
 	Example: "\t" + Binary + " login -e <email> -p <password>\n\t" + Binary + " analyse -c <postgres_connection_string>",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		fmt.Println("Welcome to dba!")
+		fmt.Println("Welcome to DBA!")
 
 		cmd.Help()
 	},
@@ -42,6 +43,22 @@ func Execute() {
 
 // to add custom flags
 func init() {
+
+	switch runtime.GOOS {
+	case "windows":
+		Binary = "dba.exe"
+	case "darwin":
+		if runtime.GOARCH == "arm64" {
+			Binary = "dba-darwin-arm64"
+		} else {
+			Binary = "dba-darwin-amd64"
+		}
+	case "linux":
+		Binary = "dba-linux-amd64"
+	default:
+		Binary = "dba.exe" // Fallback for unsupported platforms
+	}
+
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 	// rootCmd.SetHelpCommand(&cobra.Command{
 	// 	Hidden: true, // Hides the help command
