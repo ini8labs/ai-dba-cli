@@ -16,7 +16,7 @@ var (
 	loginCmd = &cobra.Command{
 		Use:   "login",
 		Short: "Login to your account",
-		Long:  `Login to your account to use the AI DBA CLI.`,
+		Long:  `Login to your account to use the Dblyser CLI.`,
 		RunE:  login,
 	}
 )

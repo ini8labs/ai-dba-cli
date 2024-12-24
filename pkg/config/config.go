@@ -23,7 +23,7 @@ func GetConfigPath() (string, error) {
 	// logrus.Debugln("config dir:", configDir)
 
 	// CLI-specific directory
-	cliDir := filepath.Join(configDir, ".dba")
+	cliDir := filepath.Join(configDir, ".dblyser")
 	if err := os.MkdirAll(cliDir, os.ModePerm); err != nil {
 		return "", err
 	}
