@@ -50,7 +50,7 @@ To ensure DB Insight can analyze your PostgreSQL database effectively, you need 
     ```
 
 
-## [Web Application: Interactive Database Analysis](./README.md)
+## [Web Application: Interactive Database Analysis](../webapp/README.md)
 
 The **Dblyser Web Application** offers an intuitive, user-friendly interface to manage and analyze your databases visually.  
 
@@ -69,7 +69,7 @@ The **Dblyser Web Application** offers an intuitive, user-friendly interface to 
 - Teams needing a visual, collaborative analysis platform.  
 - Anyone seeking a seamless, web-based experience for PostgreSQL optimization.
 
-## CLI: Lightweight and Powerful Analysis  
+## [CLI: Lightweight and Powerful Analysis](../../README.md)
 
 The **Dblyser CLI** is designed for users who prefer working in the terminal, offering fast and flexible database analysis directly from the command line.  
 

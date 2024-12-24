@@ -6,7 +6,7 @@ Welcome to your go-to platform for analyzing your PostgreSQL databases and getti
 
 The dashboard is your starting point. View a summary of your connected databases, recent analyses, and quick access to features.
 
-![dashboard](./images/dashboard-1.png)
+![dashboard](../images/dashboard-1.png)
 
 ## Connect  Database
 
@@ -14,11 +14,11 @@ Step-by-Step:
 
 1. Click the "Add Database" button.
 
-   ![add-database](./images/add-db-pop-up-2.png)
+   ![add-database](../images/add-db-pop-up-2.png)
 
 2. Enter your database credentials (Connection string/ host, port, user, etc.).
 
-   ![database-credentials](./images/db-creds-3.png)
+   ![database-credentials](../images/db-creds-3.png)
 
 3. Clock the "Add Database" button at the bottom of the pop up window to finish.
 
@@ -26,7 +26,7 @@ Step-by-Step:
 
 View and manage databases you've already connected. Easily select a database for re-analysis or delete unwanted connections.
 
-![saved-databases](./images/saved-db-1.png)
+![saved-databases](../images/saved-db-1.png)
 
 ## Start Analyzing
 
@@ -46,7 +46,7 @@ CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 
 Once a database is connected, click on the desired database and you'll be redirected to the primary analysis screen.
 
-![primary-screen](./images/analysis-primary-screen.png)
+![primary-screen](../images/analysis-primary-screen.png)
 
 ### Start the  Analysis:
 
@@ -56,13 +56,13 @@ Click on the "Start Analysis" button to begin analyzing your database.
 
 Once the analysis begins, an intermediate screen will display the progress of your database being analyzed. You'll see a status indicator, completion percentage and a message to ensure the process is running smoothly.
 
-![analysis-in-progress](./images/analysis-in-progress.png)
+![analysis-in-progress](../images/analysis-in-progress.png)
 
 ### Analysis:
 
 Dive into detailed results! The analysis screen provides insights, performance metrics, and suggestions tailored to your database.
 
-![analysis](./images/analysis.png)
+![analysis](../images/analysis.png)
 
 ## Insights
 
