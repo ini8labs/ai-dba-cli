@@ -25,7 +25,7 @@ Welcome to Dblyser, your go-to solution for PostgreSQL database analysis. Our pl
   Easily reconnect to previously analyzed databases for streamlined workflows.  
 
 - **Seamless Usability**  
-  Choose between an interactive **Web Application** or a lightweight **Command-Line Interface (CLI)** to suit your preferred workflow.  
+  Use the **Web Application** for a fully interactive experience, or the **Dblyser CLI** specifically for analyzing PostgreSQL databases running on your local machine.
 
 ## Prerequisites
 
@@ -48,7 +48,6 @@ The **Dblyser Web Application** offers an intuitive, user-friendly interface to 
 
 - Developers and admins managing cloud-hosted databases.  
 - Teams needing a visual, collaborative analysis platform.  
-- Anyone seeking a seamless, web-based experience for PostgreSQL optimization.
 
 ## [Dblyser CLI: Local Database Analysis via Command Line](../../README.md)
 
