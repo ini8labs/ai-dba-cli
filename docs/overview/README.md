@@ -31,7 +31,7 @@ Welcome to Dblyser, your go-to solution for PostgreSQL database analysis. Our pl
 
 To ensure Dblyser can analyze your PostgreSQL database effectively, you need to have the `pg_stat_statements` extension installed. This extension is used to track and report statistics on SQL queries executed by PostgreSQL, which is crucial for performance analysis.
 
-## [Web Application: Interactive Database Analysis](../webapp/README.md)
+## [Analyze Databases Using the Intuitive User Interface](../webapp/README.md)
 
 The **Dblyser Web Application** offers an intuitive, user-friendly interface to manage and analyze your databases visually.  
 
