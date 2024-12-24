@@ -15,7 +15,7 @@ const (
 
 	// BaseURL    = "http://localhost:3000"
 	// WebhookURL = BaseURL + "/v1/data"
-	// Binary     = "dba.exe"
+	// Binary     = "dblyser.exe"
 )
 
 var Binary string
@@ -27,7 +27,7 @@ var rootCmd = &cobra.Command{
 	Example: "\t" + Binary + " login -e <email> -p <password>\n\t" + Binary + " analyse -c <postgres_connection_string>",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		fmt.Println("Welcome to DBA!")
+		fmt.Println("Welcome to Dblyser CLI!")
 
 		cmd.Help()
 	},
@@ -45,23 +45,23 @@ func init() {
 
 	switch runtime.GOOS {
 	case "windows":
-		Binary = "dba.exe"
+		Binary = "dblyser.exe"
 	case "darwin":
 		if runtime.GOARCH == "arm64" {
-			Binary = "dba-darwin-arm64"
+			Binary = "dblyser-darwin-arm64"
 		} else {
-			Binary = "dba-darwin-amd64"
+			Binary = "dblyser-darwin-amd64"
 		}
 	case "linux":
 
 		if runtime.GOARCH == "arm64" {
-			Binary = "dba-linux-arm64"
+			Binary = "dblyser-linux-arm64"
 		} else {
-			Binary = "dba-linux-amd64"
+			Binary = "dblyser-linux-amd64"
 		}
 
 	default:
-		Binary = "dba.exe" // Fallback for unsupported platforms
+		Binary = "dblyser.exe" // Fallback for unsupported platforms
 	}
 
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
