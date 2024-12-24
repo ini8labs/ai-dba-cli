@@ -1,6 +1,12 @@
-# Getting Started With Web App
+# Getting Started With Analyzing Your Database
 
 Welcome to your go-to platform for analyzing your PostgreSQL databases and getting actionable suggestions! Here's how you can get started:
+
+## **Prerequisites**:
+
+Ensure your PostgreSQL database has the required extensions installed
+
+- `pg_stat_statements`
 
 ## Dashboard
 
@@ -8,11 +14,11 @@ The dashboard is your starting point. View a summary of your connected databases
 
 ![dashboard](../images/dashboard-1.png)
 
-## Connect  Database
+## Connect Database
 
 Step-by-Step:
 
-1. Click the "Add Database" button.
+1. Click the "Add Database" button to connect your database for analyzing.
 
    ![add-database](../images/add-db-pop-up-2.png)
 
@@ -29,18 +35,6 @@ View and manage databases you've already connected. Easily select a database for
 ![saved-databases](../images/saved-db-1.png)
 
 ## Start Analyzing
-
-### **Prerequisites**:
-
-Ensure your PostgreSQL database has the required extensions installed
-
-- `pg_stat_statements`
-
-To install and enable the extension on your PostgreSQL database, run the following command:
-
-```bash
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
-```
 
 ### Ready to Analyze:
 
