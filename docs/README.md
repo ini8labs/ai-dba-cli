@@ -13,10 +13,10 @@ The dashboard is your starting point. View a summary of your connected databases
 Step-by-Step:
 
 1. Click the "Add Database" button.
- ![add-database](./images/sc2.png)
+ ![add-database](./images/sc2-1.png)
 
 2. Enter your database credentials (Connection string/ host, port, user, etc.).
- ![database-credentials](./images/sc3.png)
+ ![database-credentials](./images/sc3-2.png)
 
 3. Clock the "Add Database" button at the bottom of the pop up window to finish.
 
@@ -32,6 +32,12 @@ View and manage databases you've already connected. Easily select a database for
 Ensure your PostgreSQL database has the required extensions installed
 
 - `pg_stat_statements`
+
+To install and enable the extension on your PostgreSQL database, run the following command:
+
+```bash
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+```
 
 ### Ready to Analyze:
 
