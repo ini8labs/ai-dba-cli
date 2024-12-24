@@ -1,4 +1,4 @@
-# Quick Start Guide
+# Getting Started With Web App
 
 Welcome to your go-to platform for analyzing your PostgreSQL databases and getting actionable suggestions! Here's how you can get started:
 
@@ -6,24 +6,27 @@ Welcome to your go-to platform for analyzing your PostgreSQL databases and getti
 
 The dashboard is your starting point. View a summary of your connected databases, recent analyses, and quick access to features.
 
-![dashboard](./images/sc1.png)
+![dashboard](./images/dashboard-1.png)
 
 ## Connect  Database
 
 Step-by-Step:
 
 1. Click the "Add Database" button.
- ![add-database](./images/sc2-1.png)
+
+   ![add-database](./images/add-db-pop-up-2.png)
 
 2. Enter your database credentials (Connection string/ host, port, user, etc.).
- ![database-credentials](./images/sc3-2.png)
+
+   ![database-credentials](./images/db-creds-3.png)
 
 3. Clock the "Add Database" button at the bottom of the pop up window to finish.
 
 ## Saved Databases
 
 View and manage databases you've already connected. Easily select a database for re-analysis or delete unwanted connections.
-![saved-databases](./images/sc4.png)
+
+![saved-databases](./images/saved-db-1.png)
 
 ## Start Analyzing
 
@@ -42,7 +45,8 @@ CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 ### Ready to Analyze:
 
 Once a database is connected, click on the desired database and you'll be redirected to the primary analysis screen.
-![primary-screen](./images/sc5.png)
+
+![primary-screen](./images/analysis-primary-screen.png)
 
 ### Start the  Analysis:
 
@@ -51,12 +55,14 @@ Click on the "Start Analysis" button to begin analyzing your database.
 ### In Progress:
 
 Once the analysis begins, an intermediate screen will display the progress of your database being analyzed. You'll see a status indicator, completion percentage and a message to ensure the process is running smoothly.
-![analysis-in-progress](./images/sc6.png)
+
+![analysis-in-progress](./images/analysis-in-progress.png)
 
 ### Analysis:
 
 Dive into detailed results! The analysis screen provides insights, performance metrics, and suggestions tailored to your database.
-![analysis](./images/sc7.png)
+
+![analysis](./images/analysis.png)
 
 ## Insights
 
