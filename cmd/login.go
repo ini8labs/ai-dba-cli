@@ -63,7 +63,7 @@ func login(cmd *cobra.Command, args []string) error {
 	}
 	data, err := json.Marshal(payload)
 	if err != nil {
-		return fmt.Errorf("Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 
 	loginURL := fmt.Sprintf("%s/v1/users/login", BaseURL)
@@ -71,16 +71,16 @@ func login(cmd *cobra.Command, args []string) error {
 	// Send the POST request
 	resp, err := http.Post(loginURL, "application/json", bytes.NewBuffer(data))
 	if err != nil {
-		return fmt.Errorf("Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		_, err := io.ReadAll(resp.Body)
 		if err != nil {
-			return fmt.Errorf("Could not process the request. Please try again later.")
+			return fmt.Errorf("could not process the request, please try again later")
 		}
-		return fmt.Errorf("Login failed: Check credentials and try again.")
+		return fmt.Errorf("login failed: check credentials and try again")
 	}
 
 	// Parse the response
@@ -94,7 +94,7 @@ func login(cmd *cobra.Command, args []string) error {
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
-		return fmt.Errorf("Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 
 	logrus.Infof("Login successful! Welcome %s.", response.User.Email)
@@ -102,13 +102,13 @@ func login(cmd *cobra.Command, args []string) error {
 	// Save the token in the config file
 	config, err := config.Load()
 	if err != nil {
-		return fmt.Errorf("Failed to load config: %w", err)
+		return fmt.Errorf("failed to load config: %v", err)
 
 	}
 
 	config.Token = response.Token
 	if err := config.Save(); err != nil {
-		return fmt.Errorf("Failed to save token: %w", err)
+		return fmt.Errorf("failed to save token: %v", err)
 	}
 
 	return nil
