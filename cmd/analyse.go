@@ -183,18 +183,18 @@ func analyse(cmd *cobra.Command, args []string) error {
 	// Load the token
 	config, err := config.Load()
 	if err != nil {
-		return fmt.Errorf("Failed to load config: %w", err)
+		return fmt.Errorf("failed to load config: %v", err)
 	}
 
 	if config.Token == "" {
-		return fmt.Errorf("Please login using the `login` command.")
+		return fmt.Errorf("please login using the `login` command")
 	}
 
 	// Build the connection string if not provided
 	dsn := connectionString
 	if dsn == "" {
 
-		return fmt.Errorf("Connection-string cannot be empty; please provide it using the --connection-string flag")
+		return fmt.Errorf("connection-string cannot be empty; please provide it using the --connection-string flag")
 	}
 
 	dsn, err = validateAndNormalizeConnectionString(dsn)
@@ -205,7 +205,7 @@ func analyse(cmd *cobra.Command, args []string) error {
 	// Connect to the PostgreSQL database using GORM
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default.LogMode(logger.Silent)})
 	if err != nil {
-		return fmt.Errorf("Failed to connect to the database: %w", err)
+		return fmt.Errorf("failed to connect to the database: %v", err)
 	}
 
 	db = db.Session(&gorm.Session{
@@ -215,13 +215,13 @@ func analyse(cmd *cobra.Command, args []string) error {
 	// Close the DB connection
 	sqlDB, err := db.DB()
 	if err != nil {
-		return fmt.Errorf("Failed to connect to the database: %w", err)
+		return fmt.Errorf("failed to connect to the database: %v", err)
 	}
 	defer sqlDB.Close()
 
 	// Check if the database is connected
 	if err := sqlDB.Ping(); err != nil {
-		return fmt.Errorf("Failed to ping the database: %w. Make sure the database is accessible.", err)
+		return fmt.Errorf("failed to ping the database: %w. Make sure the database is accessible", err)
 	}
 
 	// Define your queries
@@ -240,7 +240,7 @@ func analyse(cmd *cobra.Command, args []string) error {
 		// Execute the query
 		if err := db.Raw(query).Scan(&result).Error; err != nil {
 			if strings.Contains(err.Error(), "pg_stat_statements must be loaded via") {
-				logrus.Warnln("pg_stat_statements is not enabled on the database. Please ensure it is properly configured.")
+				logrus.Warnln("pg_stat_statements is not enabled on the database. Please ensure it is properly configured")
 			}
 			// TODO: deprecate
 			// }else {
@@ -263,14 +263,14 @@ func analyse(cmd *cobra.Command, args []string) error {
 
 	jsonData, err := json.Marshal(outputData)
 	if err != nil {
-		return fmt.Errorf("Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 
 	// Send the results to a webhook
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", WebhookURL, strings.NewReader(string(jsonData)))
 	if err != nil {
-		return fmt.Errorf("Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 
 	// Add the token to the Authorization header
@@ -279,19 +279,19 @@ func analyse(cmd *cobra.Command, args []string) error {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 	defer resp.Body.Close()
 
 	// Process the response
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 
 	var jsonRespData map[string]interface{}
 	if err := json.Unmarshal(body, &jsonRespData); err != nil {
-		return fmt.Errorf("Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 
 	// Handle the response based on the status code
@@ -299,9 +299,9 @@ func analyse(cmd *cobra.Command, args []string) error {
 	case http.StatusOK:
 		logrus.Infof("Success: Please log into web app to view the results. %s/dashboard", UIURL)
 	case http.StatusUnauthorized:
-		return fmt.Errorf("Error: Unauthorized. Please try logging in again.")
+		return fmt.Errorf("unauthorized, please try logging in again")
 	default:
-		return fmt.Errorf("Error: Could not process the request. Please try again later.")
+		return fmt.Errorf("could not process the request, please try again later")
 	}
 
 	return nil
