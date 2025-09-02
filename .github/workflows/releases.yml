@@ -35,15 +35,15 @@ jobs:
           mkdir -p build
           
           # Build for MacOS (both ARM and AMD64)
-          GOOS=darwin GOARCH=arm64 go build -o build/dba-darwin-arm64 main.go
-          GOOS=darwin GOARCH=amd64 go build -o build/dba-darwin-amd64 main.go
+          GOOS=darwin GOARCH=arm64 go build -o build/dblyser-darwin-arm64 main.go
+          GOOS=darwin GOARCH=amd64 go build -o build/dblyser-darwin-amd64 main.go
           
           # Build for Linux
-          GOOS=linux GOARCH=arm64 go build -o build/dba-linux-arm64 main.go
-          GOOS=linux GOARCH=amd64 go build -o build/dba-linux-amd64 main.go
+          GOOS=linux GOARCH=arm64 go build -o build/dblyser-linux-arm64 main.go
+          GOOS=linux GOARCH=amd64 go build -o build/dblyser-linux-amd64 main.go
           
           # Build for Windows
-          GOOS=windows GOARCH=amd64 go build -o build/dba.exe main.go
+          GOOS=windows GOARCH=amd64 go build -o build/dblyser.exe main.go
           
           # Create ZIP archives for each binary
           cd build
